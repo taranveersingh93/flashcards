@@ -1,7 +1,10 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const { createCard } = require('../src/card');
+const { 
+  createCard, 
+  evaluateGuess 
+} = require('../src/card');
 const { subCards } = require('../test/subdata');
 
 describe('card', function() {
@@ -36,14 +39,14 @@ describe('card', function() {
     const guess = "ANSWER";
     const correctAnswer = "answer";
     const compareGuess = evaluateGuess(guess, correctAnswer);
-    expect(compareGuess).to.equal('correct');
+    expect(compareGuess).to.equal('correct!');
   })
 
   it('should return incorrect answer if no answer provided', function() {
     const guess = "";
     const correctAnswer = "answer";
     const compareGuess = evaluateGuess(guess, correctAnswer);
-    expect(compareGuess).to.equal('correct');
+    expect(compareGuess).to.equal('incorrect!');
   })
 });
 
