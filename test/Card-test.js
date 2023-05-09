@@ -15,5 +15,9 @@ describe('card', function() {
     expect(card.question).to.equal('What allows you to define a set of related information using key-value pairs?');
     expect(card.answers).to.deep.equal(['object', 'array', 'function']);
     expect(card.correctAnswer).to.equal('object');
-  });  
+  });
+
+  // it(`should help evaluate if a guess to a card question is correct`, function() {
+  //   const card = createCard
+  // })
 });
