@@ -2,6 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const { createCard } = require('../src/card');
+const { subCards } = require('../test/subdata');
 
 describe('card', function() {
   it('should be a function', function() {
@@ -17,7 +18,17 @@ describe('card', function() {
     expect(card.correctAnswer).to.equal('object');
   });
 
-  // it(`should help evaluate if a guess to a card question is correct`, function() {
-  //   const card = createCard
-  // })
+  it(`should help evaluate a correct guess against the card question`, function() {
+    const guess = "correct answer";
+    const correctAnswer = "correct answer";
+    const compareGuess = evaluateGuess(guess, correctAnswer);
+    expect(compareGuess).to.equal('correct!');
+  })
+
+  it('should help evaluate an incorrect guess against the card question', function() {
+    const guess = "I know this";
+    const correctAnswer = "No you don't";
+    const compareGuess = evaluateGuess(guess, correctAnswer);
+    expect(compareGuess).to.equal('incorrect!');
+  })
 });
