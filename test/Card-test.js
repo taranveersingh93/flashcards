@@ -23,12 +23,27 @@ describe('card', function() {
     const correctAnswer = "correct answer";
     const compareGuess = evaluateGuess(guess, correctAnswer);
     expect(compareGuess).to.equal('correct!');
-  })
+  });
 
   it('should help evaluate an incorrect guess against the card question', function() {
     const guess = "I know this";
     const correctAnswer = "No you don't";
     const compareGuess = evaluateGuess(guess, correctAnswer);
     expect(compareGuess).to.equal('incorrect!');
+  });
+
+  it('should evaluate a guess insensitive to case', function() {
+    const guess = "ANSWER";
+    const correctAnswer = "answer";
+    const compareGuess = evaluateGuess(guess, correctAnswer);
+    expect(compareGuess).to.equal('correct');
+  })
+
+  it('should return incorrect answer if no answer provided', function() {
+    const guess = "";
+    const correctAnswer = "answer";
+    const compareGuess = evaluateGuess(guess, correctAnswer);
+    expect(compareGuess).to.equal('correct');
   })
 });
+
