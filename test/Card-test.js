@@ -58,16 +58,16 @@ describe('playing rounds', function() {
   let startingDeck;
   let zeroRound;
   let guess;
-  let firstRound;
-  let secondRound;
+  let firstWrongRound;
+  let secondWrongRound;
   
   beforeEach(function() {
     cards = [card1, card2, card3];
     startingDeck = createDeck(cards);
     zeroRound = createRound(startingDeck);
     guess = "incorrect";
-    firstRound = takeTurn(guess, zeroRound);
-    secondRound = takeTurn(guess, firstRound);
+    firstWrongRound = takeTurn(guess, zeroRound);
+    secondWrongRound = takeTurn(guess, firstWrongRound);
   })
 
   it('should initialize round with the correct defaults', function() {
@@ -82,11 +82,11 @@ describe('playing rounds', function() {
   });
 
   it('should increase the number of turns upon a guess', function() {
-    expect(firstRound.turns).to.equal(1);
+    expect(firstWrongRound.turns).to.equal(1);
   })
 
   it('should update the current card after a guess', function() {
-    expect(secondRound.currentCard).to.deep.equal({
+    expect(secondWrongRound.currentCard).to.deep.equal({
       "id": 3,
       "question": "What type of prototype method directly modifies the existing array?",
       "answers": ["mutator method", "accessor method", "iteration method"],
@@ -95,28 +95,39 @@ describe('playing rounds', function() {
   })
 
   it('should store the ID of a card which is attempted incorrectly', function() {
-    expect(secondRound.incorrectGuesses.length).to.equal(2);
-    expect(secondRound.incorrectGuesses).to.deep.equal([1,2]);
+    expect(secondWrongRound.incorrectGuesses.length).to.equal(2);
+    expect(secondWrongRound.incorrectGuesses).to.deep.equal([1,2]);
   });
   
   it('should give negative feedback for a wrong answer', function() {
-    expect(firstRound.feedback).to.equal("incorrect");
-    expect(secondRound.feedback).to.equal("incorrect");
+    expect(firstWrongRound.feedback).to.equal("incorrect");
+    expect(secondWrongRound.feedback).to.equal("incorrect");
   });
 
   it('should give give affirmative feedback for a right answer', function() {
     const firstGuess = "object";
-    const rightRoundOne = takeTurn(firstGuess, zeroRound);
-    expect(rightRoundOne.feedback).to.equal("correct");
+    const firstRightRound = takeTurn(firstGuess, zeroRound);
+    expect(firstRightRound.feedback).to.equal("correct");
   });
   
   it('should not update incorrectGuesses array if a guess is correct', function() {
     const firstGuess = "object";
     const secondGuess = "array";
-    const rightRoundOne = takeTurn(firstGuess, zeroRound);
-    const rightRoundTwo = takeTurn(secondGuess, rightRoundOne);
-    expect(rightRoundTwo.incorrectGuesses.length).to.equal(0);
+    const firstRightRound = takeTurn(firstGuess, zeroRound);
+    const secondRightRound = takeTurn(secondGuess, firstRightRound);
+    expect(secondRightRound.incorrectGuesses.length).to.equal(0);
   });
+
+  it('should calculate percentage of correct guesses', function() {
+    const firstGuess = "object";
+    const secondGuess = "array";
+    const thirdGuess = "guess";
+    const firstRightRound = takeTurn(firstGuess, zeroRound);
+    const secondRightRound = takeTurn(secondGuess, firstRightRound);
+    const thirdWrongRound = takeTurn(thirdGuess, secondRightRound);
+    const percent = calculatePercentCorrect(thirdWrongRound);
+    expect(percent).to.equal(100/3);
+  })
 });
 
 describe('guess comparison', function() {
