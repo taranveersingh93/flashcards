@@ -3,9 +3,17 @@ const expect = chai.expect;
 
 const { 
   createCard, 
-  evaluateGuess 
+  evaluateGuess
 } = require('../src/card');
-const { subCards } = require('../test/subdata');
+const { 
+  subCards,
+  refCard1,
+  refCard2,
+  refCard3,
+  card1,
+  card2,
+  card3,
+ } = require('../test/subdata');
 
 describe('card', function() {
   it('should be a function', function() {
@@ -20,7 +28,9 @@ describe('card', function() {
     expect(card.answers).to.deep.equal(['object', 'array', 'function']);
     expect(card.correctAnswer).to.equal('object');
   });
+});
 
+describe('turn', function() {
   it(`should help evaluate a correct guess against the card question`, function() {
     const guess = "correct answer";
     const correctAnswer = "correct answer";
@@ -48,5 +58,22 @@ describe('card', function() {
     const compareGuess = evaluateGuess(guess, correctAnswer);
     expect(compareGuess).to.equal('incorrect!');
   })
-});
+})
 
+describe('deck', function() {
+  it('should create a deck if provided with an array of cards', function() {
+    const cards = [card1, card2];
+    const deck = createDeck(cards);
+    expect(deck.card1.id).to.equal(1);
+    expect(deck.card1.question).to.equal("What allows you to define a set of related information using key-value pairs?");
+    expect(decl.card2.answers).to.equal(["array", "object", "function"])
+    expect(deck.card2.correctAnswer).to.equal("mutator method");
+  })
+
+  it('should be able to count the number of cards in the deck', function() {
+    const cards = [card1, card2, card3];
+    const deck = createDeck(cards);
+    const cardCount = countCards(deck);
+    expect(cardCount).to.equal(3);
+  })
+})
