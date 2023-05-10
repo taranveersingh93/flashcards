@@ -129,8 +129,19 @@ describe('playing rounds', function() {
     const firstRightRound = takeTurn(firstGuess, zeroRound);
     const secondRightRound = takeTurn(secondGuess, firstRightRound);
     const thirdWrongRound = takeTurn(thirdGuess, secondRightRound);
-    expect(thirdWrongRound.percentCorrect).to.equal(100*(2/3));
+    expect(thirdWrongRound.percentCorrect).to.equal(66);
+  });
+
+  it('should not end round if turns don\'t equal deck\'s length', function() {
+    expect(secondWrongRound.isComplete).to.equal(false);
+  });
+  
+  it('should end round if turns equal deck\'s length', function() {
+    const thirdWrongRound = takeTurn(guess, secondWrongRound);
+    expect(thirdWrongRound.isComplete).to.equal(true);
   })
+
+
 });
 
 describe('guess comparison', function() {

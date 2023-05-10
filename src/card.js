@@ -35,7 +35,7 @@ const takeTurn = (guess, round) => {
   let proxyRound = {...round};
   proxyRound.feedback = evaluateGuess(guess, proxyRound.currentCard.correctAnswer);
   proxyRound = changeRoundData(proxyRound);
-
+  endRound(proxyRound);
   return proxyRound;
 };
 
@@ -47,6 +47,7 @@ const changeRoundData = round => {
   proxyRound.turns++;
   proxyRound.currentCard = proxyRound.deck[proxyRound.turns];
   proxyRound = calculatePercentCorrect(proxyRound);
+  proxyRound = checkForEnd(proxyRound);
   return proxyRound;
 }
 
@@ -55,9 +56,23 @@ const calculatePercentCorrect = round => {
   const turns = proxyRound.turns;
   const incorrectAnswers = proxyRound.incorrectGuesses.length;
   const correctAnswers = turns - incorrectAnswers;
-  proxyRound.percentCorrect = (correctAnswers/turns)*100
+  proxyRound.percentCorrect = Math.floor((correctAnswers/turns)*100)
   return proxyRound;
 };
+
+const checkForEnd = round => {
+  let proxyRound = {...round};
+  if (proxyRound.turns === countCards(proxyRound.deck)) {
+    proxyRound.isComplete = true;
+  }
+  return proxyRound
+}
+
+const endRound = round => {
+  if (round.isComplete) {
+    console.log(`**Round over!** You answered ${round.percentCorrect}% of the questions correctly!`);
+  }
+}
 
 module.exports = {
   createCard,
