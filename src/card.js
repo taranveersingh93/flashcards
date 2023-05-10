@@ -14,7 +14,13 @@ const evaluateGuess = (guess, correctAnswer) => {
     return 'incorrect!';
   }; 
 }
+
+const createDeck = cards => cards;
+const countCards = deck => deck.length;
+
 module.exports = {
   createCard,
-  evaluateGuess
+  evaluateGuess,
+  createDeck,
+  countCards
 }

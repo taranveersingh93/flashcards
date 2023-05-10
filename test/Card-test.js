@@ -3,7 +3,9 @@ const expect = chai.expect;
 
 const { 
   createCard, 
-  evaluateGuess
+  evaluateGuess,
+  createDeck,
+  countCards,
 } = require('../src/card');
 const { 
   subCards,
@@ -82,5 +84,22 @@ describe('deck', function() {
     const deck = createDeck(cards);
     const cardCount = countCards(deck);
     expect(cardCount).to.equal(3);
+  })
+})
+
+describe('round', function() {
+  it('should initialize round with the correct defaults', function() {
+    const cards = [card1, card2, card3];
+    const startingDeck = createDeck(cards);
+    const round = createRound(startingDeck);
+
+    expect(round.currentCard).to.deep.equal({
+      "id": 1,
+      "question": "What allows you to define a set of related information using key-value pairs?",
+      "answers": ["object", "array", "function"],
+      "correctAnswer": "object"
+    });
+    expect(round.turns).to.equal(0);
+    expect(round.incorrectGuesses.length).to.equal(0);
   })
 })
