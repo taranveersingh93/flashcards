@@ -82,6 +82,7 @@ describe('playing rounds', function() {
     });
     expect(zeroRound.turns).to.equal(0);
     expect(zeroRound.incorrectGuesses.length).to.equal(0);
+    expect(zeroRound.isComplete).equal(false);
   });
 
   it('should increase the number of turns upon a guess', function() {
