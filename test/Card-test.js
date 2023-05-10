@@ -64,10 +64,17 @@ describe('deck', function() {
   it('should create a deck if provided with an array of cards', function() {
     const cards = [card1, card2];
     const deck = createDeck(cards);
-    expect(deck.card1.id).to.equal(1);
-    expect(deck.card1.question).to.equal("What allows you to define a set of related information using key-value pairs?");
-    expect(decl.card2.answers).to.equal(["array", "object", "function"])
-    expect(deck.card2.correctAnswer).to.equal("mutator method");
+    expect(deck).to.deep.equal([{
+      "id": 1,
+      "question": "What allows you to define a set of related information using key-value pairs?",
+      "answers": ["object", "array", "function"],
+      "correctAnswer": "object"
+    }, {
+      "id": 2,
+      "question": "What is a comma-separated list of related values?",
+      "answers": ["array", "object", "function"],
+      "correctAnswer": "array"
+    }]);
   })
 
   it('should be able to count the number of cards in the deck', function() {
