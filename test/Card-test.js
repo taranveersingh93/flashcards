@@ -8,7 +8,8 @@ const {
   countCards,
   createRound,
   takeTurn,
-  calculatePercentCorrect
+  calculatePercentCorrect,
+  checkForEnd
 } = require('../src/card');
 const { 
   card1,
@@ -107,7 +108,7 @@ describe('playing rounds', function() {
     expect(secondWrongRound.feedback).to.equal("incorrect!");
   });
 
-  it('should give give affirmative feedback for a right answer', function() {
+  it('should give affirmative feedback for a right answer', function() {
     const firstGuess = "object";
     const firstRightRound = takeTurn(firstGuess, zeroRound);
     expect(firstRightRound.feedback).to.equal("correct!");
@@ -121,7 +122,13 @@ describe('playing rounds', function() {
     expect(secondRightRound.incorrectGuesses.length).to.equal(0);
   });
 
-  it('should calculate percentage of correct guesses', function() {
+  it(`should calculate percentage of correct guess after single turn`, function() {
+    const firstGuess = "object";
+    const firstRightRound = takeTurn(firstGuess, zeroRound);
+    expect(firstRightRound.percentCorrect).to.equal(100);
+  })
+
+  it('should calculate percentage of correct guesses after multiple turns', function() {
     const firstGuess = "object";
     const secondGuess = "array";
     const thirdGuess = "guess";
@@ -132,12 +139,14 @@ describe('playing rounds', function() {
   });
 
   it('should not end round if turns don\'t equal deck\'s length', function() {
-    expect(secondWrongRound.isComplete).to.equal(false);
+    const isEnded = checkForEnd(firstWrongRound);
+    expect(isEnded).to.equal(false);
   });
   
   it('should end round if turns equal deck\'s length', function() {
     const thirdWrongRound = takeTurn(guess, secondWrongRound);
-    expect(thirdWrongRound.isComplete).to.equal(true);
+    const isEnded = checkForEnd(thirdWrongRound);
+    expect(isEnded).to.equal(true);
   })
 });
 
