@@ -3,13 +3,11 @@ const expect = chai.expect;
 
 const { 
   createCard, 
-  evaluateGuess
+  evaluateGuess,
+  createDeck,
+  countCards,
 } = require('../src/card');
 const { 
-  subCards,
-  refCard1,
-  refCard2,
-  refCard3,
   card1,
   card2,
   card3,
@@ -30,7 +28,98 @@ describe('card', function() {
   });
 });
 
-describe('turn', function() {
+describe('deck', function() {
+  it('should create a deck if provided with an array of cards', function() {
+    const cards = [card1, card2];
+    const deck = createDeck(cards);
+    expect(deck).to.deep.equal([{
+      "id": 1,
+      "question": "What allows you to define a set of related information using key-value pairs?",
+      "answers": ["object", "array", "function"],
+      "correctAnswer": "object"
+    }, {
+      "id": 2,
+      "question": "What is a comma-separated list of related values?",
+      "answers": ["array", "object", "function"],
+      "correctAnswer": "array"
+    }]);
+  })
+
+  it('should be able to count the number of cards in the deck', function() {
+    const cards = [card1, card2, card3];
+    const deck = createDeck(cards);
+    const cardCount = countCards(deck);
+    expect(cardCount).to.equal(3);
+  })
+})
+
+describe('playing rounds', function() {
+  let cards;
+  let startingDeck;
+  let zeroRound;
+  let guess;
+  let firstRound;
+  let secondRound;
+  
+  beforeEach(function() {
+    cards = [card1, card2, card3];
+    startingDeck = createDeck(cards);
+    zeroRound = createRound(startingDeck);
+    guess = "incorrect";
+    firstRound = takeTurn(guess, zeroRound);
+    secondRound = takeTurn(guess, firstRound);
+  })
+
+  it('should initialize round with the correct defaults', function() {
+    expect(zeroRound.currentCard).to.deep.equal({
+      "id": 1,
+      "question": "What allows you to define a set of related information using key-value pairs?",
+      "answers": ["object", "array", "function"],
+      "correctAnswer": "object"
+    });
+    expect(zeroRound.turns).to.equal(0);
+    expect(zeroRound.incorrectGuesses.length).to.equal(0);
+  });
+
+  it('should increase the number of turns upon a guess', function() {
+    expect(firstRound.turns).to.equal(1);
+  })
+
+  it('should update the current card after a guess', function() {
+    expect(secondRound.currentCard).to.deep.equal({
+      "id": 3,
+      "question": "What type of prototype method directly modifies the existing array?",
+      "answers": ["mutator method", "accessor method", "iteration method"],
+      "correctAnswer": "mutator method"
+    });
+  })
+
+  it('should store the ID of a card which is attempted incorrectly', function() {
+    expect(secondRound.incorrectGuesses.length).to.equal(2);
+    expect(secondRound.incorrectGuesses).to.deep.equal([1,2]);
+  });
+  
+  it('should give negative feedback for a wrong answer', function() {
+    expect(firstRound.feedback).to.equal("incorrect");
+    expect(secondRound.feedback).to.equal("incorrect");
+  });
+
+  it('should give give affirmative feedback for a right answer', function() {
+    const firstGuess = "object";
+    const rightRoundOne = takeTurn(firstGuess, zeroRound);
+    expect(rightRoundOne.feedback).to.equal("correct");
+  });
+  
+  it('should not update incorrectGuesses array if a guess is correct', function() {
+    const firstGuess = "object";
+    const secondGuess = "array";
+    const rightRoundOne = takeTurn(firstGuess, zeroRound);
+    const rightRoundTwo = takeTurn(secondGuess, rightRoundOne);
+    expect(rightRoundTwo.incorrectGuesses.length).to.equal(0);
+  });
+});
+
+describe('guess comparison', function() {
   it(`should help evaluate a correct guess against the card question`, function() {
     const guess = "correct answer";
     const correctAnswer = "correct answer";
@@ -57,30 +146,5 @@ describe('turn', function() {
     const correctAnswer = "answer";
     const compareGuess = evaluateGuess(guess, correctAnswer);
     expect(compareGuess).to.equal('incorrect!');
-  })
-})
-
-describe('deck', function() {
-  it('should create a deck if provided with an array of cards', function() {
-    const cards = [card1, card2];
-    const deck = createDeck(cards);
-    expect(deck).to.deep.equal([{
-      "id": 1,
-      "question": "What allows you to define a set of related information using key-value pairs?",
-      "answers": ["object", "array", "function"],
-      "correctAnswer": "object"
-    }, {
-      "id": 2,
-      "question": "What is a comma-separated list of related values?",
-      "answers": ["array", "object", "function"],
-      "correctAnswer": "array"
-    }]);
-  })
-
-  it('should be able to count the number of cards in the deck', function() {
-    const cards = [card1, card2, card3];
-    const deck = createDeck(cards);
-    const cardCount = countCards(deck);
-    expect(cardCount).to.equal(3);
   })
 })
