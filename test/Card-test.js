@@ -82,7 +82,6 @@ describe('playing rounds', function() {
     });
     expect(zeroRound.turns).to.equal(0);
     expect(zeroRound.incorrectGuesses.length).to.equal(0);
-    expect(zeroRound.isComplete).equal(false);
   });
 
   it('should increase the number of turns upon a guess', function() {
@@ -140,8 +139,6 @@ describe('playing rounds', function() {
     const thirdWrongRound = takeTurn(guess, secondWrongRound);
     expect(thirdWrongRound.isComplete).to.equal(true);
   })
-
-
 });
 
 describe('guess comparison', function() {

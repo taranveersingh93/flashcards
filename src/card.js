@@ -27,7 +27,6 @@ const createRound = deck => {
     incorrectGuesses: [],
     feedback: '',
     percentCorrect: 0,
-    isComplete: false
   }
 }
 
