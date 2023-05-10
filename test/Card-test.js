@@ -8,10 +8,6 @@ const {
   countCards,
 } = require('../src/card');
 const { 
-  subCards,
-  refCard1,
-  refCard2,
-  refCard3,
   card1,
   card2,
   card3,
@@ -88,11 +84,14 @@ describe('deck', function() {
 })
 
 describe('round', function() {
-  it('should initialize round with the correct defaults', function() {
+  beforeEach(function() {
     const cards = [card1, card2, card3];
     const startingDeck = createDeck(cards);
     const round = createRound(startingDeck);
+    return round;
+  })
 
+  it('should initialize round with the correct defaults', function() {
     expect(round.currentCard).to.deep.equal({
       "id": 1,
       "question": "What allows you to define a set of related information using key-value pairs?",
@@ -101,5 +100,7 @@ describe('round', function() {
     });
     expect(round.turns).to.equal(0);
     expect(round.incorrectGuesses.length).to.equal(0);
-  })
+  });
+
+  
 })
