@@ -6,6 +6,9 @@ const {
   evaluateGuess,
   createDeck,
   countCards,
+  createRound,
+  takeTurn,
+  calculatePercentCorrect
 } = require('../src/card');
 const { 
   card1,
@@ -100,14 +103,14 @@ describe('playing rounds', function() {
   });
   
   it('should give negative feedback for a wrong answer', function() {
-    expect(firstWrongRound.feedback).to.equal("incorrect");
-    expect(secondWrongRound.feedback).to.equal("incorrect");
+    expect(firstWrongRound.feedback).to.equal("incorrect!");
+    expect(secondWrongRound.feedback).to.equal("incorrect!");
   });
 
   it('should give give affirmative feedback for a right answer', function() {
     const firstGuess = "object";
     const firstRightRound = takeTurn(firstGuess, zeroRound);
-    expect(firstRightRound.feedback).to.equal("correct");
+    expect(firstRightRound.feedback).to.equal("correct!");
   });
   
   it('should not update incorrectGuesses array if a guess is correct', function() {
@@ -125,8 +128,7 @@ describe('playing rounds', function() {
     const firstRightRound = takeTurn(firstGuess, zeroRound);
     const secondRightRound = takeTurn(secondGuess, firstRightRound);
     const thirdWrongRound = takeTurn(thirdGuess, secondRightRound);
-    const percent = calculatePercentCorrect(thirdWrongRound);
-    expect(percent).to.equal(100/3);
+    expect(thirdWrongRound.percentCorrect).to.equal(100*(2/3));
   })
 });
 

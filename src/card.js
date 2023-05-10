@@ -16,11 +16,47 @@ const evaluateGuess = (guess, correctAnswer) => {
 }
 
 const createDeck = cards => cards;
+
 const countCards = deck => deck.length;
+
+const createRound = deck => {
+  return {
+    deck: deck,
+    turns: 0,
+    currentCard: deck[0],
+    incorrectGuesses: [],
+    feedback: '',
+    percentCorrect: 0,
+  }
+}
+
+const takeTurn = (guess, round) => {
+  let proxyRound = {...round};
+
+  proxyRound.feedback = evaluateGuess(guess, proxyRound.currentCard.correctAnswer);
+  if (proxyRound.feedback === "incorrect!") {
+    proxyRound.incorrectGuesses = [...proxyRound.incorrectGuesses, proxyRound.currentCard.id];
+  }
+  proxyRound.turns++;
+  proxyRound.currentCard = proxyRound.deck[proxyRound.turns];
+  proxyRound = calculatePercentCorrect(proxyRound);
+  return proxyRound;
+};
+
+const calculatePercentCorrect = round => {
+  let proxyRound = {...round};
+  const turns = proxyRound.turns;
+  const correctAnswers = turns - proxyRound.incorrectGuesses.length;
+  proxyRound.percentCorrect = (correctAnswers/turns)*100
+  return proxyRound;
+};
 
 module.exports = {
   createCard,
   evaluateGuess,
   createDeck,
-  countCards
+  countCards,
+  createRound,
+  takeTurn,
+  calculatePercentCorrect
 }
