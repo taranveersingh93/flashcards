@@ -20,7 +20,9 @@ describe('card', function() {
     expect(card.answers).to.deep.equal(['object', 'array', 'function']);
     expect(card.correctAnswer).to.equal('object');
   });
+});
 
+describe('turn', function() {
   it(`should help evaluate a correct guess against the card question`, function() {
     const guess = "correct answer";
     const correctAnswer = "correct answer";
@@ -48,5 +50,20 @@ describe('card', function() {
     const compareGuess = evaluateGuess(guess, correctAnswer);
     expect(compareGuess).to.equal('incorrect!');
   })
-});
+})
 
+describe('deck', function() {
+  it('should create a deck if provided with an array of cards', function() {
+    const refCard1 = subCards[0];
+    const refCard2 = subCards[1];
+    const refCard3 = subCards[2];
+    const card1 = createCard(refCard1.id, refCard1.question, refCard1.answers, refCard1.correctAnswer);
+    const card2 = createCard(refCard2.id, refCard2.question, refCard2.answers, refCard2.correctAnswer);
+    const cards = [card1, card2];
+    const deck = createDeck(cards);
+    expect(deck.card1.id).to.equal(1);
+    expect(deck.card1.question).to.equal("What allows you to define a set of related information using key-value pairs?");
+    expect(decl.card2.answers).to.equal(["array", "object", "function"])
+    expect(deck.card2.correctAnswer).to.equal("mutator method");
+  })
+})
