@@ -1,5 +1,6 @@
 const chai = require('chai');
 const expect = chai.expect;
+
 const { 
   createCard, 
   evaluateGuess,
@@ -41,6 +42,8 @@ describe('deck', function() {
 
   it('should create a deck if provided with an array of cards', function() {
     const deck = createDeck(cards);
+    
+    expect(deck.length).to.equal(3);
     expect(deck).to.deep.equal([{
       "id": 1,
       "question": "What allows you to define a set of related information using key-value pairs?",
