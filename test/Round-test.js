@@ -1,13 +1,17 @@
 const chai = require('chai');
 const expect = chai.expect;
+const assert = chai.assert;
 
 const {
   createDeck,
   createRound,
   takeTurn,
-  checkForEnd,
   calculatePercentCorrect
-} = require('../src/round')
+} = require('../src/round');
+
+const {
+  start
+} = require('../src/game');
 
 const { 
   subCards
@@ -17,7 +21,13 @@ const {
   makeCards
 } = require('../src/game');
 
-describe('playing rounds', function() {
+describe('check for start', function() {
+  it('should exist as a function', function() {
+    expect(start).to.be.a('function');
+  })
+});
+
+describe('playing rounds neutral tests', function() {
   let cards;
   let startingDeck;
   let round;
@@ -31,6 +41,7 @@ describe('playing rounds', function() {
   })
 
   it('should initialize round with the correct defaults', function() {
+    assert.isObject(round);
     expect(round.currentCard).to.deep.equal({
       "id": 1,
       "question": "What allows you to define a set of related information using key-value pairs?",
@@ -46,7 +57,25 @@ describe('playing rounds', function() {
     expect(round.turns).to.equal(1);
   });
 
-  it('should update the current card after a guess', function() {
+  it('should increase the number of turns upon multiple guesses', function() {
+    takeTurn(guess, round);
+    takeTurn(guess, round);
+    takeTurn(guess, round);
+    expect(round.turns).to.equal(3);
+  });
+
+  it('should update the current card after a single turn', function() {
+    takeTurn(guess, round);
+
+    expect(round.currentCard).to.deep.equal({
+      "id": 2,
+      "question": "What is a comma-separated list of related values?",
+      "answers": ["array", "object", "function"],
+      "correctAnswer": "array"
+    });
+  })
+
+  it('should update the current card after multiple turns', function() {
     takeTurn(guess, round);
     takeTurn(guess, round);
 
@@ -57,8 +86,28 @@ describe('playing rounds', function() {
       "correctAnswer": "mutator method"
     });
   })
+});
+
+describe('take turn with wrong guess', function() {
+  let cards;
+  let startingDeck;
+  let round;
+  let guess;
+  
+  beforeEach(function() {
+    cards = makeCards(subCards);
+    startingDeck = createDeck(cards);
+    round = createRound(startingDeck);
+    guess = "incorrect";
+  });
 
   it('should store the ID of a card which is attempted incorrectly', function() {
+    takeTurn(guess, round);
+    expect(round.incorrectGuesses.length).to.equal(1);
+    expect(round.incorrectGuesses).to.deep.equal([1]);
+  });
+
+  it('should store the ID of multiple card which are attempted incorrectly', function() {
     takeTurn(guess, round);
     takeTurn(guess, round);
     expect(round.incorrectGuesses.length).to.equal(2);
@@ -68,6 +117,20 @@ describe('playing rounds', function() {
   it('should give negative feedback for a wrong answer', function() {
     const feedback = takeTurn(guess, round);
     expect(feedback).to.equal("incorrect!");
+  });
+})
+  
+describe('take turn with a correct guess', function() {
+  let cards;
+  let startingDeck;
+  let round;
+  let guess;
+  
+  beforeEach(function() {
+    cards = makeCards(subCards);
+    startingDeck = createDeck(cards);
+    round = createRound(startingDeck);
+    guess = "incorrect";
   });
 
   it('should give affirmative feedback for a right answer', function() {
@@ -101,18 +164,4 @@ describe('playing rounds', function() {
     const correctPercent = calculatePercentCorrect(round);
     expect(correctPercent).to.equal(66);
   });
-
-  it('should not end round if turns don\'t equal deck\'s length', function() {
-    takeTurn(guess, round);
-    const isEnded = checkForEnd(round);
-    expect(isEnded).to.equal(false);
-  });
-  
-  it('should end round if turns equal deck\'s length', function() {
-    takeTurn(guess, round);
-    takeTurn(guess, round);
-    takeTurn(guess, round);
-    const isEnded = checkForEnd(round);
-    expect(isEnded).to.equal(true);
-  })
 });

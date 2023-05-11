@@ -15,14 +15,11 @@ const createRound = deck => {
     feedback: '',
     percentCorrect: 0,
   }
-}
+};
 
 const takeTurn = (guess, round) => {
   round.feedback = evaluateGuess(guess, round.currentCard.correctAnswer);
   changeRoundData(round);
-  // if (checkForEnd(round)) {
-  //   endRound(proxyRound);
-  // }
   return round.feedback;
 };
 

@@ -1,2 +1,3 @@
-const {start} = require('./src/game')
+const {start} = require('./src/game');
+
 start();
