@@ -42,8 +42,6 @@ const calculatePercentCorrect = round => {
   return Math.floor((correctAnswers/turns)*100)
 };
 
-const checkForEnd = round => round.turns === countCards(round.deck);
-
 const endRound = round => {
     console.log(`**Round over!** You answered ${round.percentCorrect}% of the questions correctly!`);
 }
@@ -54,5 +52,5 @@ module.exports = {
   createRound,
   takeTurn,
   calculatePercentCorrect,
-  checkForEnd
+  endRound
 }
