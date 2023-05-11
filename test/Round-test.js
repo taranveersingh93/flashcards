@@ -5,7 +5,8 @@ const {
   createDeck,
   createRound,
   takeTurn,
-  checkForEnd
+  checkForEnd,
+  calculatePercentCorrect
 } = require('../src/round')
 
 const { 
@@ -43,7 +44,7 @@ describe('playing rounds', function() {
   it('should increase the number of turns upon a guess', function() {
     takeTurn(guess, round);
     expect(round.turns).to.equal(1);
-  })
+  });
 
   it('should update the current card after a guess', function() {
     takeTurn(guess, round);
@@ -86,8 +87,9 @@ describe('playing rounds', function() {
   it(`should calculate percentage of correct guess after single turn`, function() {
     const firstGuess = "object";
     takeTurn(firstGuess, round);
-    expect(round.percentCorrect).to.equal(100);
-  })
+    const correctPercent = calculatePercentCorrect(round);
+    expect(correctPercent).to.equal(100);
+  });
 
   it('should calculate percentage of correct guesses after multiple turns', function() {
     const firstGuess = "object";
@@ -96,7 +98,8 @@ describe('playing rounds', function() {
     takeTurn(firstGuess, round);
     takeTurn(secondGuess, round);
     takeTurn(thirdGuess, round);
-    expect(round.percentCorrect).to.equal(66);
+    const correctPercent = calculatePercentCorrect(round);
+    expect(correctPercent).to.equal(66);
   });
 
   it('should not end round if turns don\'t equal deck\'s length', function() {
