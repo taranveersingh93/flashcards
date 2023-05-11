@@ -8,10 +8,6 @@ const {
 const {
   createDeck,
   countCards,
-  createRound,
-  takeTurn,
-  calculatePercentCorrect,
-  checkForEnd
 } = require('../src/round')
 
 const { 
