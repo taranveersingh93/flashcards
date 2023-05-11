@@ -9,10 +9,12 @@ const {
 } = require('../src/round')
 
 const { 
-  card1,
-  card2,
-  card3,
+  subCards
  } = require('../test/subdata');
+
+const {
+  makeCards
+} = require('../src/game');
 
 describe('playing rounds', function() {
   let cards;
@@ -23,7 +25,7 @@ describe('playing rounds', function() {
   let secondWrongRound;
   
   beforeEach(function() {
-    cards = [card1, card2, card3];
+    cards = makeCards(subCards);
     startingDeck = createDeck(cards);
     zeroRound = createRound(startingDeck);
     guess = "incorrect";

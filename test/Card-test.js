@@ -8,12 +8,14 @@ const {
 const {
   createDeck,
   countCards,
-} = require('../src/round')
+} = require('../src/round');
+
+const {
+  makeCards
+} = require('../src/game');
 
 const { 
-  card1,
-  card2,
-  card3,
+  subCards
  } = require('../test/subdata');
 
 describe('card', function() {
@@ -32,8 +34,12 @@ describe('card', function() {
 });
 
 describe('deck', function() {
+  let cards;
+  beforeEach(function() {
+    cards = makeCards(subCards);
+  });
+
   it('should create a deck if provided with an array of cards', function() {
-    const cards = [card1, card2];
     const deck = createDeck(cards);
     expect(deck).to.deep.equal([{
       "id": 1,
@@ -45,11 +51,15 @@ describe('deck', function() {
       "question": "What is a comma-separated list of related values?",
       "answers": ["array", "object", "function"],
       "correctAnswer": "array"
+    }, {
+      "id": 3,
+      "question": "What type of prototype method directly modifies the existing array?",
+      "answers": ["mutator method", "accessor method", "iteration method"],
+      "correctAnswer": "mutator method"
     }]);
   })
 
   it('should be able to count the number of cards in the deck', function() {
-    const cards = [card1, card2, card3];
     const deck = createDeck(cards);
     const cardCount = countCards(deck);
     expect(cardCount).to.equal(3);
