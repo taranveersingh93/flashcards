@@ -18,33 +18,28 @@ const createRound = deck => {
 }
 
 const takeTurn = (guess, round) => {
-  let proxyRound = {...round};
-  proxyRound.feedback = evaluateGuess(guess, proxyRound.currentCard.correctAnswer);
-  proxyRound = changeRoundData(proxyRound);
-  if (checkForEnd(round)) {
-    endRound(proxyRound);
-  }
-  return proxyRound;
+  round.feedback = evaluateGuess(guess, round.currentCard.correctAnswer);
+  changeRoundData(round);
+  // if (checkForEnd(round)) {
+  //   endRound(proxyRound);
+  // }
+  return round.feedback;
 };
 
 const changeRoundData = round => {
-  let proxyRound = {...round};
-  if (proxyRound.feedback === "incorrect!") {
-    proxyRound.incorrectGuesses = [...proxyRound.incorrectGuesses, proxyRound.currentCard.id];
+  if (round.feedback === "incorrect!") {
+    round.incorrectGuesses = [...round.incorrectGuesses, round.currentCard.id];
   }
-  proxyRound.turns++;
-  proxyRound.currentCard = proxyRound.deck[proxyRound.turns];
-  proxyRound = calculatePercentCorrect(proxyRound);
-  return proxyRound;
+  round.turns++;
+  round.currentCard = round.deck[round.turns];
+  round.percentCorrect = calculatePercentCorrect(round);
 }
 
 const calculatePercentCorrect = round => {
-  let proxyRound = {...round};
-  const turns = proxyRound.turns;
-  const incorrectAnswers = proxyRound.incorrectGuesses.length;
+  const turns = round.turns;
+  const incorrectAnswers = round.incorrectGuesses.length;
   const correctAnswers = turns - incorrectAnswers;
-  proxyRound.percentCorrect = Math.floor((correctAnswers/turns)*100)
-  return proxyRound;
+  return Math.floor((correctAnswers/turns)*100)
 };
 
 const checkForEnd = round => round.turns === countCards(round.deck);
