@@ -1,58 +1,41 @@
-# FlashCards Starter Kit
+# FlashCards
 
-## Fork This Repo
+## Abstract
 
-On the top right corner of this page, click the **Fork** button.
+Make test suites for a quiz-game functions to ensure proper working before connecting all parts and testing out the integrated functionality. Also, design the functions after the tests, so that they follow SRP and strive for purity of functions when possible. Keep the functions and test code as DRY as possible. 
 
-## Setup
+## Context
+- At the time of making this project, I've been a Turing student for 7 weeks. 
+- This project took me about 6 hours.
+- My last project was Rock, Paper, Scissors ([Repository](https://github.com/taranveersingh93/rockPaperScissors), [Deployment](https://taranveersingh93.github.io/rockPaperScissors/))
 
-Clone down the forked repo (from your GitHub). Since you don't want to name your project "flashcards-starter", you can use an optional argument when you run `git clone` (you replace the `[...]` with the terminal command arguments):
+## App display
 
-```bash
-git clone [remote-address] [what you want to name the repo]
-```
+![App Display](https://user-images.githubusercontent.com/122247155/237838407-67ac9477-385e-425d-b7e2-889cce99b88b.gif)
 
-Once you have cloned the repo, change into the directory and install the library dependencies using the command:
+## Technologies used
 
-```bash
-npm install
-```
+- Javascript
+- Mocha
+- Chai
 
-To verify that it is setup correctly, run `npm test` in your terminal. You should have skipped tests in your `card` test file show up.
+## Install/Setup
 
-Running `node index.js` from the root of your project should result in the following message being displayed in your terminal: 
+- Go to your terminal
+- Run commannd `git clone git@github.com:taranveersingh93/flashcards.git`
+- Run command `cd flashcards`
+- Run command `npm install`
+- Run command `npm test` to run all the tests
+- Run command `node.js` to launch the game
 
-```bash
-Your project is running...
-```
+## Challenges
 
-*Note that you will not need to you run this file until you are running your `game` file in Iteration 3. Prior to that, you should strive to use TDD to drive your code. You should check the functionality of your application by running your tests via `npm test`.*
+- Writing tests before the functions initially slowed me down. However, it helped me focus on one function at a time and also make my functions granular. 
+- Not getting to see your current version of code run in flesh felt disorienting to me. There was no way around this but to accept that this is going to be how one contributes to an organization. One function at a time.
 
-
-## Where to Add Your Code
-
-**Create all of your feature code files in the `src` directory.** Use the `module.exports` and `require` syntax to share code across files.
-
-## How to View Your Code in Action
-
-Once you are working through Iteration 3, you will want to run the `node index.js` command in your terminal to run the game.
-
-When the game is functioning appropriately, you will be prompted for each question, have the opportunity to select an answer, and will be given feedback. You will be able to play through the entire deck of cards:
-
-![flash cards example gif](https://media.giphy.com/media/1zkb1q58eTiTH6D7wc/giphy.gif)
-
----
-
-## Test Files Organization
-
-Similar to feature code, your test code needs to be put in a specific place for it to run successfully.
-
-**Put all of your test files in the `test` directory.** As a convention, all test filenames should end with `-test.js`. For instance: `card-test.js`.
-
-## Running Your Tests
-
-Run your test suite using the command:
-
-```bash
-npm test
+## Wins
+- I maintained good atomic commits and was able to make tests for all the functions returning a value.
+- Despite this being a solo project, I linked each commit with a github project issue to start adopting a collaborative habit. This too forced me to be conscious of my next steps and stay on track. 
+- I used beforeEach to DRY up my tests.
+- Since this is the first time I used tests, **I did run into quite a few error messages but playing off of those error messages, I got to the resolve quickly as well.**
 ```
