@@ -1,8 +1,11 @@
 # FlashCards
 
 ## Abstract
-
-Make test suites for a quiz-game functions to ensure proper working before connecting all parts and testing out the integrated functionality. Also, design the functions after the tests, so that they follow SRP and strive for purity of functions when possible. Keep the functions and test code as DRY as possible. 
+- Make test suites for a quiz-game functions. 
+- Make quiz-game functions
+- Ensure proper working before connecting all parts and testing out the integrated functionality. 
+- Ensure that functions follow SRP and make functions pure when feasible. 
+- Keep the functions and test code as DRY as possible. 
 
 ## Context
 - At the time of making this project, I've been a Turing student for 7 weeks. 
@@ -11,7 +14,7 @@ Make test suites for a quiz-game functions to ensure proper working before conne
 
 ## App display
 
-![App Display](https://user-images.githubusercontent.com/122247155/237838407-67ac9477-385e-425d-b7e2-889cce99b88b.gif)
+![App Display](https://user-images.githubusercontent.com/122247155/237840808-ae472819-0a97-4723-af12-4881af489262.gif)
 
 ## Technologies used
 
@@ -38,4 +41,3 @@ Make test suites for a quiz-game functions to ensure proper working before conne
 - Despite this being a solo project, I linked each commit with a github project issue to start adopting a collaborative habit. This too forced me to be conscious of my next steps and stay on track. 
 - I used beforeEach to DRY up my tests.
 - Since this is the first time I used tests, **I did run into quite a few error messages but playing off of those error messages, I got to the resolve quickly as well.**
-```
